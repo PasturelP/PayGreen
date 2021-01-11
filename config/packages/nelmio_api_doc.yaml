@@ -1,0 +1,39 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: PayGreen
+            version: 1.0.0
+            contact: paulpasturel@gmail.com
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+
+        security:
+            - Bearer: [ ]
+
+        paths:
+            /login:
+                post:
+                    tags:
+                        - Security
+                    requestBody:
+                        content:
+                            application/json:
+                                schema:
+                                    type: object
+                                    required:
+                                        - userName
+                                    properties:
+                                        username:
+                                            type: string
+                                        password:
+                                            type: string
+    areas:
+        path_patterns:
+            - ^/(?!_)(?!docs$)
+
+    models:
+        use_jms: true

@@ -1,0 +1,24 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
+    App\Events\ORM\:
+        resource: '../src/Events/ORM'
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    App\Events\Kernel\:
+        resource: '../src/Events/Kernel'
+        tags:
+            - { name: kernel.event_subscriber }

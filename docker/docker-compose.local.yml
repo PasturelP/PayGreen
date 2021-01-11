@@ -1,0 +1,44 @@
+version: '3'
+
+volumes:
+  mariadb:
+
+networks:
+  www:
+  mysql:
+
+services:
+  paygreen_nginx:
+    build:
+      context: ../
+      dockerfile: docker/local/nginx/Dockerfile
+    networks:
+      - www
+    ports:
+      - 8080:80
+    depends_on:
+      - paygreen_php
+    volumes:
+      - ../:/var/www:cached
+
+  paygreen_php:
+    build:
+      context: ../
+      dockerfile: docker/local/php/Dockerfile
+    networks:
+      - www
+      - mysql
+    volumes:
+      - ../:/var/www:cached
+
+  paygreen_mariadb:
+    image: mariadb:10.3.22
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - mysql
+    volumes:
+      - mariadb:/var/lib/mysql
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
